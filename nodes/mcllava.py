@@ -7,13 +7,17 @@ from torchvision.transforms import ToPILImage
 import io
 from PIL import Image
 import folder_paths
+import os
 # Define the directory for saving files related to the MCLLaVA model
 files_for_mcllava_model = Path(folder_paths.folder_names_and_paths["LLavacheckpoints"][0][0]) / "files_for_mcllava"
 files_for_mcllava_model.mkdir(parents=True, exist_ok=True)  # Ensure the directory exists
 
 class MCLLaVAModelPredictor:
     def __init__(self):
-        self.model_path = snapshot_download("visheratin/MC-LLaVA-3b",
+        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/MC-LLaVA-3b'):
+            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/MC-LLaVA-3b'
+        else:
+            self.model_path = snapshot_download("visheratin/MC-LLaVA-3b",
                                             local_dir=files_for_mcllava_model,
                                             force_download=False,  # Set to True if you always want to download, regardless of local copy
                                             local_files_only=False,  # Set to False to allow downloading if not available locally

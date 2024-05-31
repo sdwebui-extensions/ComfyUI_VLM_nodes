@@ -5,6 +5,7 @@ from PIL import Image
 from torchvision.transforms import ToPILImage
 from huggingface_hub import snapshot_download
 import folder_paths
+import os
 # Define the directory for saving files related to uform-gen2-qwen
 files_for_uform_gen2_qwen = Path(folder_paths.folder_names_and_paths["LLavacheckpoints"][0][0]) / "files_for_uform_gen2_qwen"
 files_for_uform_gen2_qwen.mkdir(parents=True, exist_ok=True)  # Ensure the directory exists
@@ -19,7 +20,10 @@ class StopOnTokens(StoppingCriteria):
 
 class UformGen2QwenChat:
     def __init__(self):
-        self.model_path = snapshot_download("unum-cloud/uform-gen2-qwen-500m", 
+        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/unum-cloud/uform-gen2-qwen-500m'):
+            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/unum-cloud/uform-gen2-qwen-500m'
+        else:
+            self.model_path = snapshot_download("unum-cloud/uform-gen2-qwen-500m", 
                                             local_dir=files_for_uform_gen2_qwen,
                                             force_download=False,  # Set to True if you always want to download, regardless of local copy
                                             local_files_only=False,  # Set to False to allow downloading if not available locally

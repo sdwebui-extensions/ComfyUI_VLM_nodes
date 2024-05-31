@@ -6,6 +6,7 @@ import torch
 from transformers import AutoTokenizer 
 from torchvision.transforms import ToPILImage
 import folder_paths
+import os
 
 # Define your local directory where you want to save the files
 files_for_internlm = Path(folder_paths.folder_names_and_paths["LLavacheckpoints"][0][0]) / "files_for_internlm"
@@ -19,13 +20,16 @@ def download_internlm():
     print(f"Target directory for download: {files_for_internlm}")
     
     # Call snapshot_download with specified parameters
-    path = snapshot_download(
-        "internlm/internlm-xcomposer2-vl-7b-4bit",  # Example repo_id
-        local_dir=files_for_internlm,
-        force_download=False,  # Set to True if you always want to download, regardless of local copy
-        local_files_only=False,  # Set to False to allow downloading if not available locally
-        local_dir_use_symlinks="auto"  # or set to True/False based on your symlink preference
-    )
+    if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/files_for_internlm'):
+        path = '/stable-diffusion-cache/models/LLavacheckpoints/files_for_internlm'
+    else:
+        path = snapshot_download(
+            "internlm/internlm-xcomposer2-vl-7b-4bit",  # Example repo_id
+            local_dir=files_for_internlm,
+            force_download=False,  # Set to True if you always want to download, regardless of local copy
+            local_files_only=False,  # Set to False to allow downloading if not available locally
+            local_dir_use_symlinks="auto"  # or set to True/False based on your symlink preference
+        )
     print(f"Model path: {path}")
     return path
 

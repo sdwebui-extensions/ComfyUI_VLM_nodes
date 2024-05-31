@@ -23,7 +23,10 @@ output_directory = os.path.join(files_for_moondream , "output")
 image_encoder_cache_path = os.path.join(output_directory, "image_encoder_cache")
 class MoonDream:
     def __init__(self):
-        self.model_path = snapshot_download("vikhyatk/moondream1", 
+        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/vikhyatk/moondream1'):
+            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/vikhyatk/moondream1'
+        else:
+            self.model_path = snapshot_download("vikhyatk/moondream1", 
                                             revision="5cd8d1ecd7e0d8d95222543e1960d340ddffbfef", 
                                             local_dir=files_for_moondream,
                                             force_download=False,  # Set to True if you always want to download, regardless of local copy

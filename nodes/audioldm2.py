@@ -27,7 +27,10 @@ class AudioLDM2ModelPredictor:
         torch_dtype = torch.float16 if self.device == "cuda" else torch.float32
 
         # Use snapshot_download to manage the model download/cache
-        self.model_path = snapshot_download("cvssp/audioldm2",
+        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/files_for_audioldm2'):
+            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/files_for_audioldm2'
+        else:
+            self.model_path = snapshot_download("cvssp/audioldm2",
                                             local_dir=files_for_audio_model,
                                             force_download=False,  # Set to True to always download
                                             local_files_only=False,  # Download if not available locally

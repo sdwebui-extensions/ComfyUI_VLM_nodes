@@ -7,6 +7,7 @@ import torchvision.transforms.functional as TVF
 from huggingface_hub import snapshot_download
 from torchvision import transforms
 import folder_paths
+import os
 
 THRESHOLD = 0.4
 
@@ -21,13 +22,16 @@ def download_joytag():
     print(f"Target directory for download: {files_for_joytagger}")
     
     # Call snapshot_download with specified parameters
-    path = snapshot_download(
-        "fancyfeast/joytag",  # Example repo_id
-        local_dir=files_for_joytagger,
-        force_download=False,  # Set to True if you always want to download, regardless of local copy
-        local_files_only=False,  # Set to False to allow downloading if not available locally
-        local_dir_use_symlinks="auto"  # or set to True/False based on your symlink preference
-    )
+    if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/files_for_joytagger'):
+        path = '/stable-diffusion-cache/models/LLavacheckpoints/files_for_joytagger'
+    else:
+        path = snapshot_download(
+			"fancyfeast/joytag",  # Example repo_id
+			local_dir=files_for_joytagger,
+			force_download=False,  # Set to True if you always want to download, regardless of local copy
+			local_files_only=False,  # Set to False to allow downloading if not available locally
+			local_dir_use_symlinks="auto"  # or set to True/False based on your symlink preference
+		)
     print(f"Model path: {path}")
     return path
 

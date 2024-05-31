@@ -5,6 +5,7 @@ import torch
 from torchvision.transforms import ToPILImage
 from huggingface_hub import snapshot_download
 import folder_paths
+import os
 
 
 # Define the directory for saving files related to your new model
@@ -13,7 +14,10 @@ files_for_moondream2.mkdir(parents=True, exist_ok=True)  # Ensure the directory 
 
 class Moondream2Predictor:
     def __init__(self):
-        self.model_path = snapshot_download("vikhyatk/moondream2", 
+        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/vikhyatk/moondream2'):
+            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/vikhyatk/moondream2'
+        else:
+            self.model_path = snapshot_download("vikhyatk/moondream2", 
                                             local_dir=files_for_moondream2,
                                             force_download=False,  # Set to True if you always want to download, regardless of local copy
                                             local_files_only=False,  # Set to False to allow downloading if not available locally
