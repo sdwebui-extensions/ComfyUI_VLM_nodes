@@ -5,10 +5,14 @@ from torchvision.transforms.v2 import (
     Compose,
     Resize,
     InterpolationMode,
-    ToImage,
     ToDtype,
     Normalize,
 )
+
+try:
+    from torchvision.transforms.v2 import ToImage
+except:
+    from torchvision.transforms.v2 import ToImageTensor as ToImage
 
 
 
