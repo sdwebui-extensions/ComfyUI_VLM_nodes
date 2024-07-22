@@ -19,6 +19,8 @@ except:
         os.mkdir(os.path.join(folder_paths.models_dir, "LLavacheckpoints"))
         
     folder_paths.folder_names_and_paths["LLavacheckpoints"] = ([os.path.join(folder_paths.models_dir, "LLavacheckpoints")], supported_LLava_extensions)
+if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints'):
+    folder_paths.add_model_folder_path('LLavacheckpoints', '/stable-diffusion-cache/models/LLavacheckpoints')
     
 class LLavaLoader:
     @classmethod
