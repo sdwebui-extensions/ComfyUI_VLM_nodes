@@ -20,8 +20,8 @@ class StopOnTokens(StoppingCriteria):
 
 class UformGen2QwenChat:
     def __init__(self):
-        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/uform-gen2-qwen-500m'):
-            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/uform-gen2-qwen-500m'
+        if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/files_for_uform_gen2_qwen/'):
+            self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/files_for_uform_gen2_qwen/'
         else:
             self.model_path = snapshot_download("unum-cloud/uform-gen2-qwen-500m", 
                                             local_dir=files_for_uform_gen2_qwen,
