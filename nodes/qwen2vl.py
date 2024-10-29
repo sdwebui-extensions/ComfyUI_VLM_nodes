@@ -144,6 +144,8 @@ class Qwen2VLPredictor:
         local_dir = files_for_qwen2vl / model_name
         if not local_dir.exists():
             if os.path.exists(f'/stable-diffusion-cache/models/LLavacheckpoints/files_for_qwen2vl/{model_name}'):
+                self.model_path = f'/stable-diffusion-cache/models/LLavacheckpoints/files_for_qwen2vl/{model_name.replace("B-", "B-Instruct-")}'
+            elif os.path.exists(f'/stable-diffusion-cache/models/LLavacheckpoints/files_for_qwen2vl/{model_name}'):
                 self.model_path = f'/stable-diffusion-cache/models/LLavacheckpoints/files_for_qwen2vl/{model_name}'
             else:
                 self.model_path = snapshot_download(
