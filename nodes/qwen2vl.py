@@ -316,6 +316,7 @@ class Qwen2VLNode:
                 }),
                 "model_name": (list(QWEN2_VL_MODELS.keys()),),
                 "memory_mode": (list(MEMORY_EFFICIENT_CONFIGS.keys()),),
+                "cpu_offload": ("BOOLEAN", {"default": False}),
                 "max_new_tokens": ("INT", {
                     "default": 512,
                     "min": 1,
@@ -350,10 +351,10 @@ class Qwen2VLNode:
     CATEGORY = "VLM Nodes/Qwen2-VL"
 
     def generate(self, image, text_input, model_name, memory_mode="Balanced (8-bit)", 
-                max_new_tokens=512, temperature=0.7, top_p=0.9, video_frames=None, fps=1.0):
+                max_new_tokens=512, temperature=0.7, top_p=0.9, video_frames=None, fps=1.0, cpu_offload=False):
         # Initialize or update predictor if model or memory mode changed
         if (self.predictor is None or self.current_model != model_name or 
-            self.current_memory_mode != memory_mode):
+            self.current_memory_mode != memory_mode) or cpu_offload:
             
             # Clean up old model
             if self.predictor is not None:
@@ -406,6 +407,9 @@ class Qwen2VLNode:
                             pass
             except:
                 pass
+            if cpu_offload:
+                self.predictor.model.cpu()
+                torch.cuda.empty_cache()
             
             return (response,)
             
