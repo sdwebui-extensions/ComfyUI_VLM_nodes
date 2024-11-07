@@ -408,7 +408,7 @@ class Qwen2VLNode:
             except:
                 pass
             if cpu_offload:
-                self.predictor.model.cpu()
+                self.predictor.model = None
                 torch.cuda.empty_cache()
             
             return (response,)
