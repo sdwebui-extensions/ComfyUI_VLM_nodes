@@ -51,19 +51,21 @@ from .install_init import init, get_system_info, install_llama, install_autogptq
 init()
 
 node_list = [
-    "moondream_script",
-    "simpletext",
-    "llavaloader",
-    "suggest",
-    "joytag",
-    "internlm",
-    "uform",
-    "kosmos2",
     "audioldm2",
-    "playmusic",
+    "joytag",
+    "kosmos2",
+    "llavaloader",
     "mcllava",
+    "minicpm",
+    "molmo",
     "moondream2",
+    "moondream_script",
+    "paligemma",
+    "playmusic",
     "qwen2vl",
+    "simpletext",
+    "suggest",
+    "uform",
 ]
 
 NODE_CLASS_MAPPINGS = {}
@@ -78,4 +80,3 @@ for module_name in node_list:
 
 WEB_DIRECTORY = "./web"
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
-
