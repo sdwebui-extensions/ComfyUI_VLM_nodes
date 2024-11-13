@@ -304,6 +304,7 @@ class Qwen2VLNode:
         self.predictor = None
         self.current_model = None
         self.current_memory_mode = None
+        self.cpu_offload = False
         
     @classmethod
     def INPUT_TYPES(cls):
@@ -354,9 +355,10 @@ class Qwen2VLNode:
                 max_new_tokens=512, temperature=0.7, top_p=0.9, video_frames=None, fps=1.0, cpu_offload=False):
         # Initialize or update predictor if model or memory mode changed
         if (self.predictor is None or self.current_model != model_name or 
-            self.current_memory_mode != memory_mode) or cpu_offload:
+            self.current_memory_mode != memory_mode) or cpu_offload or self.cpu_offload:
             
             # Clean up old model
+            self.cpu_offload = cpu_offload
             if self.predictor is not None:
                 del self.predictor.model
                 del self.predictor.processor
