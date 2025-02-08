@@ -1,7 +1,6 @@
 import os
 import torch
 import time  # Add this
-from transformers import AutoProcessor, PaliGemmaForConditionalGeneration, BitsAndBytesConfig, logging, AutoConfig
 from PIL import Image, ImageDraw, ImageColor, ImageFilter
 from pathlib import Path
 import folder_paths
@@ -15,7 +14,6 @@ import psutil
 from tqdm.auto import tqdm
 from huggingface_hub import hf_hub_download
 
-logging.set_verbosity_error()  # Only show errors, not info/warnings
 
 MODELS_DIR = Path(folder_paths.folder_names_and_paths["LLavacheckpoints"][0][0])
 
@@ -384,6 +382,7 @@ class Paligemma:
         return paths[0]
 
     def _download_model(self, model_id, dtype, device_map, quantization_config, max_retries=3, retry_delay=5):
+        from transformers import AutoProcessor, PaliGemmaForConditionalGeneration
         """Helper method to download model and processor."""
         for attempt in range(max_retries):
             try:
@@ -421,6 +420,7 @@ class Paligemma:
                     raise RuntimeError(f"Failed to download model after {max_retries} attempts: {str(e)}")
 
     def load_model(self, model_id=None, precision='float32', device='cpu', quantization=None, custom_model_id=None):
+        from transformers import AutoProcessor, PaliGemmaForConditionalGeneration, BitsAndBytesConfig
         try:
             # Unload current model if it exists
             if self.model is not None:

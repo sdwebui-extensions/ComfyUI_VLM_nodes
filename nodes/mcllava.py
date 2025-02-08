@@ -1,4 +1,3 @@
-from transformers import AutoModelForCausalLM, AutoProcessor
 from PIL import Image
 from pathlib import Path
 import torch
@@ -14,6 +13,7 @@ files_for_mcllava_model.mkdir(parents=True, exist_ok=True)  # Ensure the directo
 
 class MCLLaVAModelPredictor:
     def __init__(self):
+        from transformers import AutoModelForCausalLM, AutoProcessor
         if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/MC-LLaVA-3b'):
             self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/MC-LLaVA-3b'
         else:

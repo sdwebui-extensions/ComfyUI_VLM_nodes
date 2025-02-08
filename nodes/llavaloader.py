@@ -1,8 +1,6 @@
 import folder_paths
 import os
 from io import BytesIO
-from llama_cpp import Llama
-from llama_cpp.llama_chat_format import Llava15ChatHandler
 import base64
 from torchvision.transforms import ToPILImage
 import gc
@@ -40,6 +38,7 @@ class LLavaLoader:
 
     CATEGORY = "VLM Nodes/LLava"
     def load_llava_checkpoint(self, ckpt_name, max_ctx, gpu_layers, n_threads, clip ):
+        from llama_cpp import Llama
         ckpt_path = folder_paths.get_full_path("LLavacheckpoints", ckpt_name)
         llm = Llama(model_path = ckpt_path, chat_handler=clip,offload_kqv=True, f16_kv=True, use_mlock=False, embedding=False, n_batch=1024, last_n_tokens_size=1024, verbose=True, seed=42, n_ctx = max_ctx, n_gpu_layers=gpu_layers, n_threads=n_threads, logits_all=True, echo=False) 
         return (llm, ) 
@@ -57,6 +56,7 @@ class LlavaClipLoader:
 
     CATEGORY = "VLM Nodes/LLava"
     def load_clip_checkpoint(self, clip_name):
+        from llama_cpp.llama_chat_format import Llava15ChatHandler
         clip_path = folder_paths.get_full_path("LLavacheckpoints", clip_name)
         clip = Llava15ChatHandler(clip_model_path = clip_path, verbose=False)        
         return (clip, ) 
@@ -215,6 +215,8 @@ class LLavaOptionalMemoryFreeSimple:
     CATEGORY = "VLM Nodes/LLava"
 
     def generate_text(self, ckpt_name, clip_name, max_ctx, gpu_layers, n_threads, image, prompt, temperature, unload):
+        from llama_cpp import Llama
+        from llama_cpp.llama_chat_format import Llava15ChatHandler
         # Load the model
         
 
@@ -304,6 +306,8 @@ class LLavaOptionalMemoryFreeAdvanced:
     CATEGORY = "VLM Nodes/LLava"
 
     def generate_text_advanced(self, ckpt_name, clip_name, max_ctx, gpu_layers, n_threads, image, system_msg, prompt, max_tokens, temperature, top_p, top_k, frequency_penalty, presence_penalty, repeat_penalty, seed, unload):
+        from llama_cpp import Llama
+        from llama_cpp.llama_chat_format import Llava15ChatHandler
 
         # Load the clip
         clip_path = folder_paths.get_full_path("LLavacheckpoints", clip_name)

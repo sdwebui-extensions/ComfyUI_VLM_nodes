@@ -1,5 +1,5 @@
 from pathlib import Path
-from transformers import AutoModel, AutoProcessor, StoppingCriteria, StoppingCriteriaList
+from transformers import StoppingCriteria, StoppingCriteriaList
 import torch
 from PIL import Image
 from torchvision.transforms import ToPILImage
@@ -20,6 +20,7 @@ class StopOnTokens(StoppingCriteria):
 
 class UformGen2QwenChat:
     def __init__(self):
+        from transformers import AutoModel, AutoProcessor
         if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/files_for_uform_gen2_qwen/'):
             self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/files_for_uform_gen2_qwen/'
         else:

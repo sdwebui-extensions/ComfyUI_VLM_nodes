@@ -6,8 +6,6 @@ from pathlib import Path
 from torchvision.transforms import ToPILImage
 from huggingface_hub import snapshot_download
 import folder_paths
-from transformers import AutoModelForVision2Seq, AutoTokenizer, AutoProcessor, BitsAndBytesConfig
-from qwen_vl_utils import process_vision_info
 
 def check_flash_attention():
     """Check if flash attention 2 is available"""
@@ -137,6 +135,7 @@ class SystemResources:
 
 class Qwen2VLPredictor:
     def __init__(self, model_name, memory_mode="Balanced (8-bit)"):
+        from transformers import AutoModelForVision2Seq, AutoTokenizer, AutoProcessor
         # Check system resources
         error_messages = SystemResources.check_resources(model_name, memory_mode)
         if error_messages:
@@ -233,6 +232,7 @@ class Qwen2VLPredictor:
         return messages
         
     def generate_predictions(self, image_path, prompt, max_new_tokens=512, temperature=0.7, top_p=0.9, video_frames=None, fps=1.0):
+        from qwen_vl_utils import process_vision_info
         try:
             # Handle video input if provided
             if video_frames:

@@ -1,10 +1,7 @@
 import folder_paths
 import os
-from llama_cpp import Llama, LlamaGrammar
 from .prompts import system_msg_prompts
 from pydantic import BaseModel, Field, validator 
-from llama_cpp_agent.llm_agent import LlamaCppAgent
-from llama_cpp_agent.gbnf_grammar_generator.gbnf_grammar_from_pydantic_models import generate_gbnf_grammar_and_documentation
 import json
 from .prompts import system_msg_prompts
 from .prompts import system_msg_simple
@@ -288,6 +285,7 @@ class LLMLoader:
 
     CATEGORY = "VLM Nodes/LLM"
     def load_llm_checkpoint(self, ckpt_name, max_ctx, gpu_layers, n_threads):
+        from llama_cpp import Llama
         ckpt_path = folder_paths.get_full_path("LLavacheckpoints", ckpt_name)
         llm = Llama(model_path = ckpt_path, chat_format="chatml", offload_kqv=True, f16_kv=True, use_mlock=False, embedding=False, n_batch=1024, last_n_tokens_size=1024, verbose=True, seed=42, n_ctx = max_ctx, n_gpu_layers=gpu_layers, n_threads=n_threads,) 
         return (llm, ) 
@@ -451,6 +449,9 @@ class KeywordExtraction:
     CATEGORY = "VLM Nodes/LLM"
     
     def keyword_extract(self, prompt, model, temperature):
+        from llama_cpp import LlamaGrammar
+        from llama_cpp_agent.llm_agent import LlamaCppAgent
+        from llama_cpp_agent.gbnf_grammar_generator.gbnf_grammar_from_pydantic_models import generate_gbnf_grammar_and_documentation
         gbnf_grammar, documentation = generate_gbnf_grammar_and_documentation([Analysis])
         grammar = LlamaGrammar.from_string(gbnf_grammar, verbose=False)
 
@@ -480,6 +481,9 @@ class LLavaPromptGenerator:
     CATEGORY = "VLM Nodes/LLM"
     
     def generate_prompts(self, prompt, model, temperature):
+        from llama_cpp import LlamaGrammar
+        from llama_cpp_agent.llm_agent import LlamaCppAgent
+        from llama_cpp_agent.gbnf_grammar_generator.gbnf_grammar_from_pydantic_models import generate_gbnf_grammar_and_documentation
         gbnf_grammar, documentation = generate_gbnf_grammar_and_documentation([PromptGen])
         grammar = LlamaGrammar.from_string(gbnf_grammar, verbose=False)
 
@@ -507,6 +511,9 @@ class CreativeArtPromptGenerator:
     CATEGORY = "VLM Nodes/LLM"
     
     def create_creative_art_prompts(self, prompt, model, temperature):
+        from llama_cpp import LlamaGrammar
+        from llama_cpp_agent.llm_agent import LlamaCppAgent
+        from llama_cpp_agent.gbnf_grammar_generator.gbnf_grammar_from_pydantic_models import generate_gbnf_grammar_and_documentation
         gbnf_grammar, documentation = generate_gbnf_grammar_and_documentation([ArtPromptSpecification])
         grammar = LlamaGrammar.from_string(gbnf_grammar, verbose=False)
 
@@ -537,6 +544,9 @@ class Suggester:
     CATEGORY = "VLM Nodes/LLM"
     
     def generate_suggestions(self, prompt, model, temperature, randomize):
+        from llama_cpp import LlamaGrammar
+        from llama_cpp_agent.llm_agent import LlamaCppAgent
+        from llama_cpp_agent.gbnf_grammar_generator.gbnf_grammar_from_pydantic_models import generate_gbnf_grammar_and_documentation
         gbnf_grammar, documentation = generate_gbnf_grammar_and_documentation([Suggestion])
         grammar = LlamaGrammar.from_string(gbnf_grammar, verbose=False)
         if randomize: 
@@ -591,6 +601,9 @@ class StructuredOutput:
     CATEGORY = "VLM Nodes/LLM"
 
     def keyword_extract(self, prompt, model, temperature, attribute_name, attribute_type, attribute_description, categories):
+        from llama_cpp import LlamaGrammar
+        from llama_cpp_agent.llm_agent import LlamaCppAgent
+        from llama_cpp_agent.gbnf_grammar_generator.gbnf_grammar_from_pydantic_models import generate_gbnf_grammar_and_documentation
         setter = PydanticAttributeSetter()
         
         if attribute_type == "Category":
@@ -636,6 +649,7 @@ class LLMOptionalMemoryFreeSimple:
     CATEGORY = "VLM Nodes/LLM"
 
     def generate_text(self, ckpt_name, max_ctx, gpu_layers, n_threads, prompt, temperature, unload):
+        from llama_cpp import Llama
         # Load model
         ckpt_path = folder_paths.get_full_path("LLavacheckpoints", ckpt_name)
         self.llm = Llama(model_path=ckpt_path, offload_kqv=True, f16_kv=True, use_mlock=False, embedding=False, n_batch=1024, last_n_tokens_size=1024, verbose=True, seed=42, n_ctx=max_ctx, n_gpu_layers=gpu_layers, n_threads=n_threads, logits_all=True, echo=False)
@@ -687,6 +701,7 @@ class LLMOptionalMemoryFreeAdvanced:
     CATEGORY = "VLM Nodes/LLM"
 
     def generate_text_advanced(self, ckpt_name, max_ctx, gpu_layers, n_threads, system_msg, prompt, max_tokens, temperature, top_p, top_k, frequency_penalty, presence_penalty, repeat_penalty, seed, unload):
+        from llama_cpp import Llama
         # Load model
         ckpt_path = folder_paths.get_full_path("LLavacheckpoints", ckpt_name)
         self.llm = Llama(model_path=ckpt_path, offload_kqv=True, f16_kv=True, use_mlock=False, embedding=False, n_batch=1024, last_n_tokens_size=1024, verbose=True, seed=seed, n_ctx=max_ctx, n_gpu_layers=gpu_layers, n_threads=n_threads, logits_all=True, echo=False)

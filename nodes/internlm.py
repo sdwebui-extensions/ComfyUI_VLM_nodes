@@ -3,7 +3,6 @@ from pathlib import Path
 import torch
 from huggingface_hub import snapshot_download
 import torch
-from transformers import AutoTokenizer 
 from torchvision.transforms import ToPILImage
 import folder_paths
 import os
@@ -60,6 +59,7 @@ class Internlm:
 
     def internlm_chat(self, image, question):
         from auto_gptq.modeling._base import BaseGPTQForCausalLM
+        from transformers import AutoTokenizer 
         model_path = download_internlm()
         print(f"Model path: {model_path}")
         class InternLMXComposer2QForCausalLM(BaseGPTQForCausalLM):

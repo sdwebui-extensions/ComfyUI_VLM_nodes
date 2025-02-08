@@ -1,4 +1,3 @@
-from transformers import AutoModelForVision2Seq, AutoProcessor
 from PIL import Image
 from pathlib import Path
 import torch
@@ -12,6 +11,7 @@ files_for_new_model.mkdir(parents=True, exist_ok=True)  # Ensure the directory e
 
 class KosmosModelPredictor:
     def __init__(self):
+        from transformers import AutoModelForVision2Seq, AutoProcessor
         if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/files_for_kosmos2'):
             self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/files_for_kosmos2'
         else:

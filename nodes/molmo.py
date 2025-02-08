@@ -5,7 +5,6 @@ from pathlib import Path
 import folder_paths
 import logging
 import warnings
-from transformers import AutoModelForCausalLM, AutoProcessor, GenerationConfig, BitsAndBytesConfig
 from huggingface_hub import snapshot_download
 import torch.amp.autocast_mode
 import psutil
@@ -100,6 +99,7 @@ class SystemResources:
 
 class MolmoPredictor:
     def __init__(self, model_name, memory_mode="4-bit Quantized (15GB+ Required)", use_autocast=True):
+        from transformers import AutoModelForCausalLM, AutoProcessor, BitsAndBytesConfig
         self.model_name = MOLMO_MODELS[model_name]["repo"]
         self.memory_config = MEMORY_MODES[memory_mode]
         self.use_autocast = use_autocast and torch.cuda.is_available()
@@ -162,6 +162,7 @@ class MolmoPredictor:
             raise
 
     def generate(self, image, prompt, max_new_tokens=200, temperature=0.7, top_p=0.9, top_k=50):
+        from transformers import GenerationConfig
         try:
             # Process inputs
             inputs = self.processor.process(

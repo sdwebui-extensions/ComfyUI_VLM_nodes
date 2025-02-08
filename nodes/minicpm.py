@@ -6,7 +6,6 @@ from PIL import Image
 from pathlib import Path
 from huggingface_hub import hf_hub_download
 import folder_paths
-from transformers import AutoModel, AutoTokenizer
 
 # Define the directory for saving MiniCPM files
 MINICPM_PATH = Path(folder_paths.folder_names_and_paths["LLavacheckpoints"][0][0]) / "minicpm_files"
@@ -25,6 +24,7 @@ GGUF_MODELS = {
 class MiniCPMPredictor:
     def __init__(self, model_name='openbmb/MiniCPM-V-2_6', context_length=4096, temp=0.7, 
                  top_p=0.8, top_k=100, repeat_penalty=1.05):
+        from transformers import AutoModel, AutoTokenizer
         self.context_length = context_length
         self.temp = temp
         self.top_p = top_p

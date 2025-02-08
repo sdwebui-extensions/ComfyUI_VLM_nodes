@@ -1,4 +1,3 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
 from PIL import Image
 from pathlib import Path
 import torch
@@ -14,6 +13,7 @@ files_for_moondream2.mkdir(parents=True, exist_ok=True)  # Ensure the directory 
 
 class Moondream2Predictor:
     def __init__(self):
+        from transformers import AutoModelForCausalLM, AutoTokenizer
         if os.path.exists('/stable-diffusion-cache/models/LLavacheckpoints/vikhyatk/moondream2'):
             self.model_path = '/stable-diffusion-cache/models/LLavacheckpoints/vikhyatk/moondream2'
         else:

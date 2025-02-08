@@ -2,7 +2,6 @@ from huggingface_hub import snapshot_download
 from pathlib import Path
 import torch
 import os
-import soundfile as sf
 from folder_paths import output_directory
 import folder_paths
 import datetime
@@ -112,6 +111,7 @@ class SaveAudioNode:
     OUTPUT_NODE = True
 
     def save_audio(self, waveforms, sample_rate, extension, filename):
+        import soundfile as sf
         # Build the base audio path
         base_path = Path(output_directory) / filename
         
