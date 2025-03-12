@@ -166,7 +166,7 @@ class Qwen2VLPredictor:
             # Base model kwargs
             model_kwargs = {
                 "trust_remote_code": True,
-                "device_map": "auto" if config["cpu_offload"] else None,
+                "device_map": "auto" if config["cpu_offload"] else "cuda:0",
             }
             
             # Setup quantization config if needed
